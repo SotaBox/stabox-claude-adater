@@ -1,0 +1,23 @@
+{
+  "tools": [
+    {
+      "name": "sotabox_guide",
+      "description": "the Sotabox Guide is the tool to query information about Sotabox product. Always answer based on the data provided with ciation clearly",
+      "apiKey": "",
+      "enabled": true
+    },
+    {
+      "name": "insurance_documents",
+      "description": "The insurance is the tool find information related to insurance. Always answer based on the data provided with ciation clearly",
+      "apiKey": "",
+      "enabled": true
+    },
+    {
+      "name": "sotatek_hr",
+      "description": "The Sotatek HR document is tool to retriev sotatek internal HR document. Always answer based on the data provided with ciation clearly",
+      "apiKey": "",
+      "enabled": true
+    }
+    
+  ]
+} 
