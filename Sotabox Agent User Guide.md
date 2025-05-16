@@ -29,18 +29,18 @@ The Sotabox MCP Server implements the Model Completion Protocol to provide Claud
 
 ### Adding New Tools to Claudes
 
-To add a new tool, edit the configuration file and add a new entry to the `tools` array:
-
+To add new tool to the Claude, please copy and past thi file to Claude config file:
 ```json
 {
-  "tools": [
-    {
-      "name": "tool_name",
-      "description": "Description of what the tool does...",
-      "apiKey": "your-api-key",
-      "enabled": true
+  "mcpServers": {
+    "SotaboxMCP": {
+      "command": "/Users/sotatek/Documents/Sandbox/SotaboxMCP/build/macos/sotabox-mcp",
+      "args": [
+        "-config",
+        "/Users/sotatek/Documents/Sandbox/SotaboxMCP/config.json"
+      ]
     }
-  ]
+  }
 }
 ```
 
@@ -70,6 +70,21 @@ The default configuration includes only the "sotabox_guide" tool
     
   ]
 } 
+```
+
+To add a new tool, edit the configuration file and add a new entry to the `tools` array:
+
+```json
+{
+  "tools": [
+    {
+      "name": "tool_name",
+      "description": "Description of what the tool does...",
+      "apiKey": "your-api-key",
+      "enabled": true
+    }
+  ]
+}
 ```
 
 ## Where to get sotabox-API key
