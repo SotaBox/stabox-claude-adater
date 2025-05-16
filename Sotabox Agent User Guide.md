@@ -15,7 +15,8 @@ The Sotabox MCP Server implements the Model Completion Protocol to provide Claud
 
 ## Support OS:
  - MacOS 
- - Window 
+ - Window
+ - Linux
 
 ## Setup 
  - Download Sotabox Executor Adater in this folder (use correct os file)
