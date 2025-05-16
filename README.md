@@ -1,117 +1,107 @@
-# Universal Execution Policy Manager
+# Sotabox MCP Server
 
-A cross-platform script to manage file execution permissions across macOS, Windows, and Linux systems.
+A Model Completion Protocol (MCP) server that connects Claude to Sotabox services.
 
 ## Overview
 
-This utility provides an interactive way to:
-- Make files executable
-- Modify system security policies
-- Change PowerShell execution policies
-- Manage file permissions and ownership
+The Sotabox MCP Server implements the Model Completion Protocol to provide Claude with access to various Sotabox API tools. It handles the translation between Claude's function calls and the Sotabox, making it easy to extend Claude's capabilities with custom external tools.
 
-The script automatically detects your operating system and provides the appropriate options for your platform.
+## Features
 
-## Download
+- Support auto routing trieval multiple sotabox channels
+- Answer with source citation if quested by prompt
+- Integrate with claude pro "Extended Thining" for reasoning and extending retrieval if information not found.
+- Compatile with sotabox API only
 
-Download the script from this repository:
+## Support OS:
+ - MacOS 
+ - Window
+ - Linux
 
-```bash
-# Using curl
-curl -O https://your-repository-url/change_execution_policy.sh
+## Setup 
+ - Download Sotabox Executor Adater in this folder (use correct os file)
+ - Download sample config.json file
+ - Config Sotabox APi key as the guide below
+ - Download Claude Destop if you dont have one
+ - Open the Claude setting --> Developer --> Edit Config
+ - Replace the path of "Sotabox-mcp" and config.son into the config.
 
-# Using wget
-wget https://your-repository-url/change_execution_policy.sh
+
+### Adding New Tools to Claudes
+
+To add new tool to the Claude, please copy and past thi file to Claude config file:
+```json
+{
+  "mcpServers": {
+    "SotaboxMCP": {
+      "command": "/Users/sotatek/Documents/Sandbox/SotaboxMCP/build/macos/sotabox-mcp",
+      "args": [
+        "-config",
+        "/Users/sotatek/Documents/Sandbox/SotaboxMCP/config.json"
+      ]
+    }
+  }
+}
 ```
 
-## Installation
+## Each tool has the following properties:
+- **name**: The name of the tool (used to identify it in the MCP protocol)
+- **description**: A description of what the tool does
+- **apiKey**: The API key used for authentication with the Sotabox API
+- **enabled**: Whether the tool is enabled or not
 
-### macOS and Linux
+The default configuration includes only the "sotabox_guide" tool
 
-1. Save the script as `change_execution_policy.sh`
-2. Make it executable:
-   ```bash
-   chmod +x change_execution_policy.sh
-   ```
-3. Run the script:
-   ```bash
-   ./change_execution_policy.sh
-   ```
+```json
+{
+  "tools": [
+    {
+      "name": "sotabox_guide",
+      "description": "the Sotabox Guide is the tool to query information about Sotabox product. Always answer based on the data provided with ciation clearly",
+      "apiKey": "your sotabox api key",
+      "enabled": true
+    },
+    {
+      "name": "sotatek_hr",
+      "description": "The Sotatek HR document is tool to retriev sotatek internal HR document. Always answer based on the data provided with ciation clearly",
+      "apiKey": "your sotabox api key",
+      "enabled": true
+    },
+    {
+      "name": "Sotatek Porfolio",
+      "description": "The Sotatek Portfolios document is tool to retriev sotatek internal HR document. Always answer based on the data provided with ciation clearly",
+      "apiKey": "your sotabox api key",
+      "enabled": true
+    }
+  ]
+} 
+```
 
-### Windows
+To add a new tool, edit the configuration file and add a new entry to the `tools` array:
 
-1. Save the script as `change_execution_policy.sh`
-2. If you have Git Bash, WSL, or another Unix-like shell installed, you can run it like on Linux
-3. Otherwise, you can run it with PowerShell:
-   ```powershell
-   bash ./change_execution_policy.sh
-   ```
-4. The script will create two Windows-specific files:
-   - `change_execution_policy.ps1` (PowerShell script)
-   - `run_policy_script.bat` (Batch file launcher)
-5. Double-click the `run_policy_script.bat` file to run the Windows version
+```json
+{
+  "tools": [
+    {
+      "name": "tool_name",
+      "description": "Description of what the tool does...",
+      "apiKey": "your-api-key",
+      "enabled": true
+    }
+  ]
+}
+```
 
-## Features by Operating System
+## Where to get sotabox-API key
 
-### macOS Features
-- Make individual files executable
-- Allow applications from unidentified developers (via Gatekeeper settings)
-- Reset Gatekeeper to default security settings
-- Display current security settings for files and applications
+- Sotabox - API key provided for Sotabox Channels' admin
+- If you are staffs, please contact admin for have one
+- In a sotabox channel --> control pannel --> chatbot --> cread new chatbot
+- Select sources PDF/Wiki/Website, and fill required information
+- Copy API key to the above config.son file each tools are one channels
 
-### Linux Features
-- Make files executable with custom permission levels (owner, group, everyone)
-- Display detailed file permissions
-- Change ownership of files
-- Batch process directories to make multiple files executable
 
-### Windows Features
-- Set PowerShell execution policy:
-  - Unrestricted: Allow all scripts to run
-  - RemoteSigned: Allow local scripts, require signing for downloaded scripts
-  - AllSigned: Require digital signatures on all scripts
-  - Restricted: No scripts allowed
-- Apply policies system-wide (administrator) or per-user
-- Bypass execution policy for current session
-- Test execution policy with a sample script
-- Display detailed information about current policies
 
-## Security Considerations
 
-- **Unrestricted settings**: Be cautious when allowing unrestricted execution of files or scripts, as this can pose security risks
-- **Administrator privileges**: Some operations require administrator/sudo privileges
-- **Temporary policy changes**: Consider reverting to more secure settings after completing your task
-- **macOS Gatekeeper**: Disabling Gatekeeper removes a security layer - only do this temporarily
 
-## Troubleshooting
 
-### Common Issues on macOS
-- "Operation not permitted": You need to run with `sudo` for some operations
-- Gatekeeper changes require a password and may reset after a system update
-
-### Common Issues on Linux
-- Permission denied: Run with `sudo` when changing system files
-- Cannot find file: Make sure the path is correct and absolute paths may work better
-
-### Common Issues on Windows
-- "Cannot run scripts": The script creates a workaround with a .bat file
-- Access denied: Right-click and "Run as administrator" for system-wide changes
-- Policy doesn't persist: Make sure you're running as administrator
-
-## Limitations
-
-- The Windows portion requires PowerShell 3.0 or later
-- Some macOS features require administrator permissions
-- Script detection relies on standard Unix/Windows commands
-
-## Security Warning
-
-⚠️ **IMPORTANT**: Modifying execution policies can expose your system to security risks. Only use these settings when needed, and consider reverting to more secure settings when finished.
-
-## License
-
-This script is provided under the MIT License. See LICENSE for details.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
