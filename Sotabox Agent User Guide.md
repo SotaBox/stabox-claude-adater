@@ -67,7 +67,12 @@ The default configuration includes only the "sotabox_guide" tool
       "apiKey": "your sotabox api key",
       "enabled": true
     },
-    
+    {
+      "name": "Sotatek Porfolio",
+      "description": "The Sotatek Portfolios document is tool to retriev sotatek internal HR document. Always answer based on the data provided with ciation clearly",
+      "apiKey": "your sotabox api key",
+      "enabled": true
+    }
   ]
 } 
 ```
